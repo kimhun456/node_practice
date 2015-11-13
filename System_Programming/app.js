@@ -6,8 +6,9 @@ http.createServer(function (request, response) {
   request.on('data', function (chunk) {
 
     jsonData += chunk;
+
   });
-  
+
   request.on('end', function () {
 
     var requestObject = JSON.parse(jsonData);
