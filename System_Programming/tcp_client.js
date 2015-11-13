@@ -1,14 +1,14 @@
 var net = require('net');
 
 var client = new net.Socket();
-client.connect(1337, '127.0.0.1', function() {
+client.connect(1337, '52.69.176.156', function() {
     console.log('Connected');
     client.write('Hello, server! Love, Client.');
 });
 
 client.on('data', function(data) {
     console.log('Received: ' + data);
-    client.destroy(); // kill client after server's response
+//    client.destroy(); // kill client after server's response
 });
 
 client.on('close', function() {
