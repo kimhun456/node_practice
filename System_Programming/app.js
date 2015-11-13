@@ -24,4 +24,6 @@ http.createServer(function (request, response) {
     console.log(requestObject.occupation);
 
   });
-}).listen(8080);
+}).listen(1080);
+
+console.log("server is listened in 8080");
