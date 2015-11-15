@@ -26,8 +26,9 @@ int main(int argc,char **argv)
         bzero( sendline, 100);
         bzero( recvline, 100);
         fgets(sendline,100,stdin); /*stdin = 0 , for standard input */
+        
 
-        write(sockfd,sendline,strlen(sendline)+1);
+        write(sockfd,sendline,strlen(sendline));
         read(sockfd,recvline,100);
         printf("%s",recvline);
     }
