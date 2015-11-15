@@ -1,24 +1,19 @@
 var net = require('net');
 var port = 1337;
 var server = net.createServer(function(socket) {
-	console.log("new Connction");
+	console.log("--------connection------");
 	socket.setEncoding("utf8");
 
 	// send(socket, "Echo Server");
 
 	socket.on('data',function(data){
-		console.log(data.toString());
+		console.log("recieved data : " + data.toString());
 		socket.write(data);
+		console.log("send data  : " + data.toString());
 	});
-
-	socket.on("connection", function(){
-		console.log("------connection------");
-		rePrompt(socket);
-	});
-
 
 	socket.on("end", function(){
-		console.log("Client Leave!!");
+		console.log("--------client leave --------");
 	});
 
 	socket.on("error",function(err){
