@@ -5,11 +5,12 @@ var server = net.createServer(function(socket) {
 	socket.setEncoding("utf8");
 	socket.name = socket.remoteAddress + ":" + socket.remotePort ;
 	// send(socket, "Echo Server");
+	console.log("client name is : "+socket.name);
 	clients.push(socket);
 	console.log("----------"+socket.name + " is connected------");
 	socket.on('data',function(data){
 		console.log("recieved data : " + data.toString());
-		socket.write(data);
+		broadcast(data);
 		console.log("send data  : " + data.toString());
 	});
 
@@ -29,8 +30,8 @@ server.listen(port);
 
 console.log("server start in 52.69.176.156 port 1337");
 
-function broadcast(message, sender){
-	clinets.forEach(function (client){
+function broadcast(message){
+	clients.forEach(function (client){
 		client.write(message);
 	});
 }
