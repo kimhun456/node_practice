@@ -3,9 +3,7 @@ var fortunes = [
   "bad",
   "very good",
   "not bad",
-
   "terrible"
-
 ];
 
 

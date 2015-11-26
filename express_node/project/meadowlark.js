@@ -1,6 +1,8 @@
 var express = require("express");
 var app = express();
-var fortune = require("./libs/fortunes.js")
+var fortune = require("./libs/fortunes.js");
+
+// view handler 추가
 var handlebars = require("express-handlebars").create({defaultLayout:'main'});
 app.engine("handlebars",handlebars.engine);
 app.set('view engine', 'handlebars');
@@ -18,6 +20,7 @@ console.log("static folder is added");
 // 이 방법 사용시 서버를 시작하기전에 환경 값을 설정해 포트를 오버라이드 가능하다.
 app.set("port",process.env.PORT||3000);
 
+// ?test=1 로 테스트 모드 작동시킨다.
 app.use(function(req, res, next){
 	res.locals.showTests = app.get('env') !== 'production' &&
 		req.query.test === '1';
@@ -28,10 +31,23 @@ app.get("/", function(req,res){
     res.render("home");
 });
 
+
+// /about 작성
 app.get("/about", function(req,res){
   res.render("about", {
     fortunes: fortune.getFortunes(),
-    pageTestScript : "/qa/test-about.js" })
+    pageTestScript : "/qa/test-about.js"
+	});
+});
+
+// route add
+app.get("/tours/hood-river",function(req,res){
+	res.render("tours/hood-river");
+});
+
+// route add
+app.get("/tours/request-group-rate",function(req,res){
+	res.render("tours/request-group-rate");
 });
 
 // 404 커스텀 페이지
@@ -39,13 +55,14 @@ app.use(function(req,res){
     res.status(404);
     res.render("404");
   });
-
+// 500 커스텀 페이지
 app.use(function(err,req,res,next){
     console.error(err.stack);
     res.status(500);
     res.render("500");
 });
 
+// 앱시작시키기
 app.listen(app.get("port"),function(){
     console.log("Express started on 127.0.0.1: " + app.get("port") + " press ctrl + c to terminate");
 
