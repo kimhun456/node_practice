@@ -1,32 +1,54 @@
 var express = require("express");
 var app = express();
-// 이 방법 사용시 서버를 시작하기전에 환경 값을 설정해 포트를 오버라이드 가능하다. 
+
+var handlebars = require("express-handlebars").create({defaultLayout:'main'});
+app.engine("handlebars",handlebars.engine);
+app.set('view engine', 'handlebars');
+
+console.log("view engien is handlebars");
+
+
+var fortunes= [
+  "asdfasf",
+  "safdsafdd",
+  "qeqeq",
+  "dsafljasfl"
+];
+
+
+
+// 정적인 파일을 저장할수 있는 public 폴더를 지정해준다.
+// static 이라는 미들웨어사용!!!
+app.use(express.static(__dirname + '/public'));
+
+console.log("static folder is added");
+
+
+// 이 방법 사용시 서버를 시작하기전에 환경 값을 설정해 포트를 오버라이드 가능하다.
 app.set("port",process.env.PORT||3000);
 
 
 // get()은 라우터를 추가하는 메서드이다
 app.get("/", function(req,res){
-    res.type("text/plain");
-    res.send("MeadowLark Travel");
+    res.render("home");
 });
 
 app.get("/about", function(req,res){
-    res.type("text/plain");
-    res.send("About");
+  var randomFortunes =
+  fortunes[Math.floor(Math.random() * fortunes.length)];
+    res.render("about", {fortunes : randomFortunes});
 });
 
 // 404 커스텀 페이지
 app.use(function(req,res){
-    res.type("text/plain");
     res.status(404);
-    res.send("404 - not found");
-});
+    res.render("404");
+  });
 
 app.use(function(err,req,res,next){
     console.error(err.stack);
-    res.type("text/plain");
-    res.stats(500);
-    res.send("500 - server error");
+    res.status(500);
+    res.render("500");
 });
 
 app.listen(app.get("port"),function(){
