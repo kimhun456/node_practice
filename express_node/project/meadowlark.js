@@ -1,20 +1,11 @@
 var express = require("express");
 var app = express();
-
+var fortune = require("./libs/fortunes.js")
 var handlebars = require("express-handlebars").create({defaultLayout:'main'});
 app.engine("handlebars",handlebars.engine);
 app.set('view engine', 'handlebars');
 
 console.log("view engien is handlebars");
-
-
-var fortunes= [
-  "asdfasf",
-  "safdsafdd",
-  "qeqeq",
-  "dsafljasfl"
-];
-
 
 
 // 정적인 파일을 저장할수 있는 public 폴더를 지정해준다.
@@ -34,9 +25,7 @@ app.get("/", function(req,res){
 });
 
 app.get("/about", function(req,res){
-  var randomFortunes =
-  fortunes[Math.floor(Math.random() * fortunes.length)];
-    res.render("about", {fortunes : randomFortunes});
+  res.render("about", {fortunes: fortune.getFortunes() })
 });
 
 // 404 커스텀 페이지
