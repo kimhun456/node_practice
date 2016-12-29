@@ -12,3 +12,5 @@ console.time("getting data");
 console.timeEnd("getting data");
 
 console.info("program Ended");
+
+console.log("the message");
